@@ -19,3 +19,10 @@ jobs:
     - name: Convert JSON to HTML
       run: |
         python -m json.tool < mobsf_report.json > mobsf_report.html
+      continue-on-error: true
+      
+    - name: Upload MobSF report
+      uses: actions/upload-artifact@v2
+      with:
+        name: MobSF Report
+        path: mobsf_report.html
