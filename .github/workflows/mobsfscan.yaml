@@ -2,27 +2,26 @@ name: mobsfscan
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [master, main]
   pull_request:
-    branches: [ master, main ]
+    branches: [master, main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: mobsfscan
-      uses: MobSF/mobsfscan@main
-      with:
-        args: '. --json'
-        
-    - name: Convert JSON to HTML
-      run: |
-        python -m json.tool < mobsf_report.json > mobsf_report.html
-      continue-on-error: true
-      
-    - name: Upload MobSF report
-      uses: actions/upload-artifact@v2
-      with:
-        name: MobSF Report
-        path: mobsf_report.html
+      - uses: actions/checkout@v2
+      - name: mobsfscan
+        uses: MobSF/mobsfscan@main
+        with:
+          args: '. --json'
+
+      - name: Convert JSON to HTML
+        run: |
+          python -m json.tool < mobsf_report.json > mobsf_report.html || true
+
+      - name: Upload MobSF report
+        uses: actions/upload-artifact@v2
+        with:
+          name: MobSF Report
+          path: mobsf_report.html
