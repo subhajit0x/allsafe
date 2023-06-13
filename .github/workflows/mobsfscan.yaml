@@ -16,11 +16,4 @@ jobs:
       - name: mobsfscan
         uses: MobSF/mobsfscan@main
         with:
-          args: '. --json --ignore=low,medium'
-        id: mobsfscan
-
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: mobsfscan-report
-          path: mobsfscan.json
+          args: '. --ignore=low,medium'
