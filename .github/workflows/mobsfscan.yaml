@@ -17,15 +17,10 @@ jobs:
         uses: MobSF/mobsfscan@main
         with:
           args: '. --json --ignore=low,medium'
-        continue-on-error: true
-
-      - name: Generate HTML report
-        run: |
-          cat mobsfscan.json | python -m json.tool > mobsfscan_formatted.json || true
-          python generate_report.py mobsfscan_formatted.json > report.html || true
+        id: mobsfscan
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v2
         with:
           name: mobsfscan-report
-          path: report.html
+          path: mobsfscan.json
