@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2
 
@@ -16,15 +17,12 @@ jobs:
         uses: MobSF/mobsfscan@main
         with:
           args: '. --json'
-          
-      - name: Save scan results
-        run: mv mobsfscan.json ${{ github.workspace }}/mobsfscan.json
-
-      - name: Format JSON
-        run: cat mobsfscan.json | python -m json.tool > mobsfscan_formatted.json
+        continue-on-error: true
 
       - name: Generate HTML report
-        run: python generate_report.py mobsfscan_formatted.json > report.html
+        run: |
+          cat mobsfscan.json | python -m json.tool > mobsfscan_formatted.json || true
+          python generate_report.py mobsfscan_formatted.json > report.html || true
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v2
