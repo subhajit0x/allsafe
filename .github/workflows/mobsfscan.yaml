@@ -2,14 +2,13 @@ name: mobsfscan
 
 on:
   push:
-    branches: [ master, main ]
+    branches: [master, main]
   pull_request:
-    branches: [ master, main ]
+    branches: [master, main]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v2
 
@@ -17,12 +16,15 @@ jobs:
         uses: MobSF/mobsfscan@main
         with:
           args: '. --json'
-        continue-on-error: true
+          
+      - name: Save scan results
+        run: mv mobsfscan.json ${{ github.workspace }}/mobsfscan.json
+
+      - name: Format JSON
+        run: cat mobsfscan.json | python -m json.tool > mobsfscan_formatted.json
 
       - name: Generate HTML report
-        run: |
-          cat mobsfscan.json | python -m json.tool > mobsfscan_formatted.json
-          python generate_report.py mobsfscan_formatted.json > report.html
+        run: python generate_report.py mobsfscan_formatted.json > report.html
 
       - name: Upload report artifact
         uses: actions/upload-artifact@v2
