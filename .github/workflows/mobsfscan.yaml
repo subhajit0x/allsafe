@@ -13,7 +13,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: mobsfscan
-        uses: MobSF/mobsfscan@main
+      - name: Set up Python
+        uses: actions/setup-python@v2
         with:
-          args: '. --ignore=low,medium'
+          python-version: 3.x
+
+      - name: mobsfscan
+        run: |
+          PYTHONPATH=/home/runner/work/_actions/MobSF/mobsfscan/main
+          export PYTHONPATH=/home/runner/work/_actions/MobSF/mobsfscan/main
+          echo "Running mobsfscan..."
+          python3 -m mobsfscan . --exclude=low,medium
+          echo "Finished"
