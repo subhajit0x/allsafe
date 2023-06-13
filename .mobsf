@@ -16,5 +16,4 @@
   - android_certificate_transparency
 
   severity-filter:
-  -  HIGH
-  -  MEDIUM
+  -  WARNING
