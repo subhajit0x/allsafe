@@ -16,4 +16,5 @@
   - android_certificate_transparency
 
   severity-filter:
-  -  WARNING
+  - WARNING
+  - ERROR
